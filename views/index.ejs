@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD Web App</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      max-width: 800px; 
+      margin: 0 auto; 
+      padding: 20px;
+    }
+    h1 { color: #333; }
+    form { margin-bottom: 20px; }
+    input, textarea { 
+      display: block; 
+      margin-bottom: 10px; 
+      padding: 8px; 
+      width: 100%; 
+    }
+    button { 
+      background-color: #4CAF50; 
+      color: white; 
+      padding: 10px 15px; 
+      border: none; 
+      cursor: pointer; 
+    }
+    .delete-button { 
+      background-color: #f44336; 
+    }
+    .edit-button { 
+      background-color: #2196F3; 
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+    }
+    th, td { 
+      padding: 8px; 
+      text-align: left; 
+      border-bottom: 1px solid #ddd; 
+    }
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CRUD Web App</h1>
+  
+  <!-- Add New Item Form -->
+  <h2>Add New Item</h2>
+  <form action="/items" method="POST">
+    <input type="text" name="name" placeholder="Item Name" required>
+    <textarea name="description" placeholder="Description" required></textarea>
+    <button type="submit">Add Item</button>
+  </form>
+  
+  <!-- Items List -->
+  <h2>Items List</h2>
+  <% if (locals.error) { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% items.forEach(item => { %>
+        <tr>
+          <td><%= item.id %></td>
+          <td><%= item.name %></td>
+          <td><%= item.description %></td>
+          <td class="action-buttons">
+            <form action="/items/<%= item.id %>/edit" method="GET">
+              <button type="submit" class="edit-button">Edit</button>
+            </form>
+            <form action="/items/<%= item.id %>/delete" method="POST">
+              <button type="submit" class="delete-button">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html> 
